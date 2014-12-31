@@ -1,0 +1,23 @@
+---
+
+- name: Install Hue
+  yum: pkg={{ item }} state=latest
+  with_items:
+    - hue-beeswax
+    - hue-common
+    - hue-doc
+    - hue-hbase
+    - hue-impala
+    - hue-pig
+    - hue-rdbms
+    - hue-search
+    - hue-security
+    - hue-server
+    - hue-spark
+    - hue-sqoop
+    - hue-zookeeper
+
+- name: HUE confs
+  template: src=conf/{{ item }}.js dest=/etc/hue/conf/{{ item }}
+  with_items:
+    - hue.ini

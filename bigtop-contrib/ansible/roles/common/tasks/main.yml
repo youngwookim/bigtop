@@ -1,0 +1,30 @@
+---
+
+- name: Bigtop YUM repository
+  template: src=bigtop.repo dest=/etc/yum.repos.d/bigtop.repo mode=0644
+
+- name: EPEL (CentOS/RHEL)
+  yum: name=http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm state=present
+  when: ansible_pkg_mgr == 'yum'
+
+- name: Install common packages
+  yum: pkg={{ item }} state=present
+  with_items:
+    - java-1.7.0-openjdk-devel
+    - sudo
+    - zip
+    - unzip
+    - openssh
+    - openssl
+    - openssl-devel
+    - libselinux-python
+
+- name: Disable Requiretty On Sudoers
+  shell: /bin/sed -i "s/^.*requiretty/#Defaults requiretty/" /etc/sudoers
+
+- name: Disable SELinux
+  selinux: state=disabled
+
+- name: Set vm.swappiness to 1
+  sysctl: name=vm.swappiness value=1 state=present
+  ignore_errors: yes

@@ -1,0 +1,5 @@
+---
+# Role default variables allow you to set default variables for included or dependent roles. 
+# These variables will have the lowest priority of any variables available, and can be easily overridden by any other variable, including inventory variables.
+
+pig_exectype: mapreduce

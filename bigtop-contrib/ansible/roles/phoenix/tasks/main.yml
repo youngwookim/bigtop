@@ -1,0 +1,13 @@
+---
+
+- name: Install Phoenix
+  yum: pkg={{ item }} state=present
+  with_items:
+    - phoenix
+
+# http://phoenix.apache.org/installation.html
+- name: Add phoenix-server.jar to the classpath of every HBase regionserver
+  file: path=/usr/lib/hbase/lib/phoenix-server.jar state=absent
+  file: src=/usr/lib/phoenix/phoenix-server.jar dest=/usr/lib/hbase/lib/phoenix-server.jar state=link
+  notify:
+  - Restart HBase RegionServer

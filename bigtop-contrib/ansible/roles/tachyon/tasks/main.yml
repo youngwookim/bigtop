@@ -1,0 +1,13 @@
+---
+
+- name: Install Tachyon master
+  yum: pkg={{ item }} state=present
+  with_items:
+    - tachyon-master
+  when: ansible_fqdn in groups['tachyon-master']
+  
+- name: Install Tachyon worker
+  yum: pkg={{ item }} state=latest
+  with_items:
+    - tachyon-worker
+  when: ansible_fqdn in groups['tachyon-worker']

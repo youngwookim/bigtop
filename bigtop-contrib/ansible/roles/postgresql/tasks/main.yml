@@ -1,0 +1,43 @@
+---
+
+- name: Install PostgreSQL server and jdbc driver
+  yum: pkg={{ item }} state=present
+  with_items:
+    - postgresql
+    - postgresql-server
+    - postgresql-jdbc
+    - python-psycopg2
+
+- name: Initiate database
+  command: service postgresql initdb
+  
+- name: pg_hba.conf
+  template: src={{ item }}.j2 dest=/var/lib/pgsql/data/{{ item }}
+  with_items:
+    - pg_hba.conf
+
+- name: Start PostgreSQL 
+  service: name=postgresql enabled=yes state=started
+
+# Hive
+- name: Hive db
+  sudo: yes
+  sudo_user: postgres
+  postgresql_db: name=hive encoding='UTF-8'
+  
+- name: Hive user
+  sudo: yes
+  sudo_user: postgres
+  postgresql_user: db=hive name=hiveuser password=mypassword priv=ALL
+
+# Oozie
+- name: Oozie db
+  sudo: yes
+  sudo_user: postgres
+  postgresql_db: name=oozie encoding='UTF-8'
+  
+- name: Oozie user
+  sudo: yes
+  sudo_user: postgres
+  postgresql_user: db=oozie name=oozieuser password=mypassword priv=ALL
+

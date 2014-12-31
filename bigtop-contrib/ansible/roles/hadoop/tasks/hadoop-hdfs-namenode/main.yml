@@ -1,0 +1,10 @@
+---
+
+- name: Install hadoop-hdfs-namenode
+  yum: pkg={{ item }} state=latest
+  with_items:
+    - hadoop-hdfs-namenode
+
+- name: Create directories for NameNode
+  file: dest={{ item }} state=directory owner=hdfs group=hdfs mode=0755
+  with_items: dfs_namenode_name_dir

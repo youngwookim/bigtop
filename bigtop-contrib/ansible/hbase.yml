@@ -1,0 +1,6 @@
+---
+
+# HBase
+- hosts: hbase
+  roles:
+    - { role: hbase }

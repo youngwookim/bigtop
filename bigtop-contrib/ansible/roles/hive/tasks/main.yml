@@ -1,0 +1,26 @@
+---
+
+- name: Install Hive Server2, Metastore and JDBC driver for PostgreSQL
+  yum: pkg={{ item }} state=present
+  with_items:
+    - hive-metastore
+    - hive-server2
+    - postgresql-jdbc
+    
+- name: Hive confs
+  template: src=conf.dist/{{ item }}.j2 dest=/etc/hive/conf/{{ item }}
+  with_items:
+    - hive-site.xml
+    - hive-env.sh
+
+- name: Link postgresql jdbc
+  file: src=/usr/share/java/postgresql-jdbc.jar dest=/usr/lib/hive/lib/postgresql-jdbc.jar state=link
+
+- name: Create Hive metastore schema
+  command: /usr/lib/hive/bin/schematool schematool -dbType postgres -initSchema
+  
+- name: Start hive-metastore
+  service: name=hive-metastore state=started
+  
+- name: Start hive-server2
+  service: name=hive-server2 state=started

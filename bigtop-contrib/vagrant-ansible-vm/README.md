@@ -1,0 +1,63 @@
+    Licensed to the Apache Software Foundation (ASF) under one or more
+    contributor license agreements. See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+    The ASF licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License. You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+
+# Bigtop VM provisioner via Vagrant and Ansible
+
+## Overview
+
+The Vagrantfile definition creates a bigtop virtual hadoop cluster for you, by pulling from existing publishing bigtop repositories.
+This cluster can be used:
+
+- to test bigtop smoke tests
+- to test bigtop ansible roles
+
+## USAGE
+
+1) Install vagrant
+
+https://www.vagrantup.com/downloads.html
+
+2) Install ansible on vagrant host
+Install ansible on a RHEL/CentOS:
+
+```
+# yum install ansible
+
+```
+Install ansible on a Debian/Ubuntu:
+```
+$ sudo apt-get install software-properties-common
+$ sudo apt-add-repository ppa:ansible/ansible
+$ sudo apt-get update
+$ sudo apt-get install ansible
+
+```
+
+3) Install [vagrant-hostmanager plugin](https://github.com/smdahlen/vagrant-hostmanager) to better manage `/etc/hosts`
+
+```
+vagrant plugin install vagrant-hostmanager
+
+```
+
+4) Apache Hadoop cluster on top of vagrant boxes
+
+```
+vagrant up
+
+```
+
+

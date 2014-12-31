@@ -1,0 +1,4 @@
+---
+
+- name: Install Kite
+  yum: pkg=kite state=present

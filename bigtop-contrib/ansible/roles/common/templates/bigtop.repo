@@ -1,0 +1,7 @@
+[bigtop]
+name=Bigtop
+enabled=1
+gpgcheck=0
+type=NONE
+#baseurl=http://bigtop01.cloudera.org:8080/job/Bigtop-0.8.0/label=centos6//lastSuccessfulBuild/artifact/output/
+baseurl={{ bigtop_yum_repo }}

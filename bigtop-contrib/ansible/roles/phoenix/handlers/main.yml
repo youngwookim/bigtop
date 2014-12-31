@@ -1,0 +1,4 @@
+---
+# Restart HBase RegionServer
+- name: Restart HBase RegionServer
+  service: name=hbase-regionserver state=restarted

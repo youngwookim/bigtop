@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+
+    <property>
+        <name>mapreduce.framework.name</name>
+        <value>{{ mapreduce_framework_name }}</value>
+    </property>
+
+    <property>
+        <name>mapreduce.cluster.local.dir</name>
+        <value>/hadoop/mapred</value>
+    </property>
+
+    <property>
+        <name>mapreduce.jobhistory.address</name>
+        <value>{{ groups['mapreduce-historyserver'][0] }}:10020</value>
+    </property>
+
+    <property>
+        <name>mapreduce.jobhistory.webapp.address</name>
+        <value>{{ groups['mapreduce-historyserver'][0] }}:19888</value>
+    </property>
+
+    <property>
+        <name>yarn.app.mapreduce.am.resource.mb</name>
+        <value>{{ yarn_app_mapreduce_am_resource_mb }}</value>
+    </property>
+
+    <property>
+        <name>yarn.app.mapreduce.am.command-opts</name>
+        <value>-Xmx{{ yarn_app_mapreduce_am_resource_mb }}m</value>
+    </property>
+
+    <property>
+        <name>mapreduce.map.memory.mb</name>
+        <value>{{ mapreduce_map_memory_mb }}</value>
+    </property>
+
+    <property>
+        <name>mapreduce.reduce.memory.mb</name>
+        <value>{{ mapreduce_reduce_memory_mb }}</value>
+    </property>
+
+    <property>
+        <name>mapreduce.map.java.opts</name>
+        <value>-Xmx{{ mapreduce_map_memory_mb }}m</value>
+    </property>
+
+    <property>
+        <name>mapreduce.reduce.java.opts</name>
+        <value>-Xmx{{ mapreduce_reduce_memory_mb }}m</value>
+    </property>
+
+    <property>
+        <name>mapreduce.admin.map.child.java.opts</name>
+        <value>-server -Djava.net.preferIPv4Stack=true</value>
+    </property>
+
+    <property>
+        <name>mapreduce.admin.reduce.child.java.opts</name>
+        <value>-server -Djava.net.preferIPv4Stack=true</value>
+    </property>
+
+    <property>
+        <name>mapred.task.tracker.task-controller</name>
+        <value>org.apache.hadoop.mapred.DefaultTaskController</value>
+    </property>
+
+    <property>
+        <name>mapreduce.map.speculative</name>
+        <value>false</value>
+    </property>
+
+    <property>
+        <name>mapreduce.output.fileoutputformat.compress.type</name>
+        <value>BLOCK</value>
+    </property>
+
+    <property>
+        <name>mapreduce.task.io.sort.mb</name>
+        <value>100</value>
+    </property>
+
+    <property>
+        <name>mapreduce.shuffle.port</name>
+        <value>8081</value>
+    </property>
+
+    <property>
+        <name>mapreduce.task.io.sort.factor</name>
+        <value>100</value>
+    </property>
+
+    <property>
+        <name>mapreduce.jobtracker.system.dir</name>
+        <value>/mapred/system</value>
+    </property>
+
+    <property>
+        <name>mapred.jobtracker.maxtasks.per.job</name>
+        <value>-1</value>
+    </property>
+
+    <property>
+        <name>mapreduce.reduce.speculative</name>
+        <value>false</value>
+    </property>
+
+    <property>
+        <name>mapreduce.map.output.compress</name>
+        <value>false</value>
+    </property>
+
+    <property>
+        <name>mapreduce.map.output.compress.codec</name>
+        <value>org.apache.hadoop.io.compress.SnappyCodec</value>
+    </property>
+
+    <property>
+        <name>yarn.app.mapreduce.am.staging-dir</name>
+        <value>/user</value>
+    </property>
+
+    <property>
+        <name>mapreduce.application.classpath</name>
+        <value>/usr/lib/hadoop-mapreduce/*,/usr/lib/hadoop-mapreduce/lib/*</value>
+    </property>
+
+    <property>
+        <name>mapreduce.client.submit.file.replication</name>
+        <value>5</value>
+    </property>
+
+</configuration>

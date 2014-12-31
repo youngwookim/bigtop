@@ -1,0 +1,3 @@
+---
+#bigtop_yum_repo: "http://bigtop01.cloudera.org:8080/view/Releases/job/Bigtop-0.8.0/label=centos6/6/artifact/output/"
+bigtop_yum_repo: "http://14.63.216.163/repo/sdf/1.0/redhat/6/x86_64/"

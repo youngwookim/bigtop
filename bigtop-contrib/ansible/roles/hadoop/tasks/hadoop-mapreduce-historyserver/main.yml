@@ -1,0 +1,5 @@
+---
+- name: Install MapReduce Historyserver
+  yum: pkg={{ item }} state=latest
+  with_items:
+    - hadoop-mapreduce-historyserver

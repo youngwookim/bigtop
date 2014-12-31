@@ -1,0 +1,6 @@
+---
+# Phoenix
+- hosts: hbase-regionserver
+  roles:
+    - { role: phoenix }
+

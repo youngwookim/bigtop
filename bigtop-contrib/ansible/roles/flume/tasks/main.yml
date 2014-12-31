@@ -1,0 +1,10 @@
+---
+
+- name: Install Flume Agent
+  yum: pkg=flume-agent state=present
+
+- name: Flume confs
+  template: src={{ item }}.j2 dest=/etc/flume/conf/{{ item }}
+  with_items:
+    - flume-conf.properties
+    - flume-env.sh

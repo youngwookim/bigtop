@@ -1,0 +1,6 @@
+---
+
+- name: Install Hadoop Secondary Namenode
+  yum: pkg={{ item }} state=latest
+  with_items:
+    - hadoop-hdfs-secondarynamenode

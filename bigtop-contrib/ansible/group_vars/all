@@ -1,0 +1,63 @@
+# dummy_var: dummy
+
+site: "bigtop"
+
+# Hadoop
+# Default variables: roles/hadoop/defaults/main.yml
+hdfs_ha_enabled: false
+yarn_rm_ha_enabled: false
+
+dfs_nameservice: "bigtop"
+
+fs_defaultfs: "hdfs://{{ groups['hdfs-namenode'][0] }}:8020"
+
+dfs_replication: "3"
+
+dfs_namenode_rpc_address_nn1: "{{ groups['hdfs-namenode'][0] }}"
+dfs_namenode_rpc_address_nn2: "{{ groups['hdfs-namenode-standby'][0] }}"
+
+dfs_journalnode_edits_dir:
+  - "/hadoop/hdfs/journal"
+  
+dfs_datanode_data_dir:
+  - "/hadoop/hdfs/data"
+
+dfs_namenode_name_dir:
+  - "/hadoop/hdfs/name"
+
+dfs_secondarynamenode_name_dir:
+  - "/hadoop/hdfs/secondaryname"
+
+yarn_resourcemanager_address: 8050
+
+yarn_log_server_url: "groups['hdfs-historyserver'][0]:19888/jobhistory/logs"
+
+yarn_nodemanager_local_dirs:
+  - "/hadoop/yarn/local"
+
+dns_interface: "default"
+
+yarn_nodemanager_resource_memory_mb: 4000
+yarn_scheduler_maximum_allocation_mb: 4000
+yarn_scheduler_minimum_allocation_mb: 256
+
+mapreduce.framework.name: yarn
+
+mapred_local_dirs:
+  - "/hadoop/mapreduce/local"
+
+yarn_app_mapreduce_am_resource_mb: 1024
+mapreduce_map_memory_mb: 256
+mapreduce_reduce_memory_mb: 256
+
+# HBase
+hbase_rootdir: "{{ fs_defaultfs  }}/hbase"
+
+# Hive
+hive_execution_engine: "mr"
+
+# zookeeper
+zookeeper_client_port: 2181
+
+
+

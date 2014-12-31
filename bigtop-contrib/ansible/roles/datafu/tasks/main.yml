@@ -1,0 +1,4 @@
+---
+
+- name: Install Datafu
+  yum: pkg=datafu state=present

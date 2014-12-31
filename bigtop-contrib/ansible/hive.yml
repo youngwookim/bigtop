@@ -1,0 +1,8 @@
+---
+
+# Hive (hive metastore and server2)
+- hosts: hive
+  #remote_user: vagrant
+  #sudo: yes
+  roles:
+    - { role: hive }

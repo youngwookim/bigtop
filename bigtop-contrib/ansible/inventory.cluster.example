@@ -1,0 +1,109 @@
+bigtop1.example.com ansible_ssh_host=10.10.10.11
+bigtop2.example.com ansible_ssh_host=10.10.10.12
+bigtop3.example.com ansible_ssh_host=10.10.10.13
+
+[zookeeper]
+bigtop1.example.com myid=1
+bigtop2.example.com myid=2
+bigtop3.example.com myid=3
+
+# FQDN of HDFS NameNode
+[hdfs-namenode]
+bigtop1.example.com
+
+[hdfs-datanode]
+bigtop1.example.com
+bigtop2.example.com
+bigtop3.example.com
+
+[hdfs-secondarynamenode]
+bigtop1.example.com
+
+# For HDFS HA
+[hdfs-namenode-standby]
+bigtop2.example.com
+
+[hdfs-zkfc]
+bigtop1.example.com
+bigtop2.example.com
+
+[hdfs-journalnode]
+bigtop1.example.com
+bigtop2.example.com
+bigtop3.example.com
+
+# Hadoop: YARN
+[yarn-resourcemanager]
+bigtop1.example.com
+
+[yarn-resourcemanager-standby]
+bigtop2.example.com
+
+[yarn-nodemanager]
+bigtop1.example.com
+bigtop2.example.com
+bigtop3.example.com
+
+[mapreduce-historyserver]
+bigtop1.example.com
+
+# HBase
+[hbase-master]
+bigtop1.example.com
+
+[hbase-regionserver]
+bigtop1.example.com
+
+# FQDN for hiveserver2
+[hive]
+bigtop1.example.com
+
+[oozie]
+bigtop1.example.com
+
+[flume]
+bigtop1.example.com
+
+[pig]
+bigtop1.example.com
+bigtop2.example.com
+bigtop3.example.com
+
+[mahout]
+bigtop2.example.com
+
+[spark-master]
+bigtop2.example.com
+
+[spark-worker]
+bigtop3.example.com
+
+[tachyon-master]
+bigtop2.example.com
+
+[tachyon-worker]
+bigtop3.example.com
+
+[hue]
+bigtop1.example.com
+
+[hadoop:children]
+hdfs-namenode
+hdfs-namenode-standby
+hdfs-secondarynamenode
+hdfs-datanode
+hdfs-journalnode
+yarn-resourcemanager
+yarn-nodemanager
+
+[hbase:children]
+hbase-master
+hbase-regionserver
+
+[spark:children]
+spark-master
+spark-worker
+
+[tachyon:children]
+tachyon-master
+tachyon-worker

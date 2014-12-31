@@ -1,0 +1,6 @@
+---
+# HUE
+- hosts: hue
+  roles:
+    - { role: hue }
+

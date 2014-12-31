@@ -1,0 +1,4 @@
+---
+
+- name: Install Crunch
+  yum: pkg=crunch state=present

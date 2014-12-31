@@ -1,0 +1,4 @@
+---
+
+- name: Install Tez
+  yum: pkg=tez state=present

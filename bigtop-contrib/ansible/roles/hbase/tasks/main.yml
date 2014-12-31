@@ -1,0 +1,26 @@
+---
+
+- include: "hbase-master/main.yml"
+  when: ansible_fqdn in groups['hbase-master']
+
+- include: "hbase-regionserver/main.yml"
+  when: ansible_fqdn in groups['hbase-regionserver']
+ 
+
+- name: Create a directory for HBase conf
+  file: dest=/etc/hbase/conf.{{ site }} state=directory
+  
+- name: HBase confs
+  template: src=conf/{{ item }}.j2 dest=/etc/hbase/conf.{{ site }}/
+  with_items:
+    - hadoop-metrics2-hbase.properties
+    - hbase-env.sh
+    - hbase-policy.xml
+    - hbase-site.xml
+    - log4j.properties
+
+- name: alternatives, install HBase configuration
+  command: update-alternatives --install /etc/hbase/conf hbase-conf /etc/hbase/conf.{{ site }} 50
+
+- name: alternatives, set HBase configuration
+  command: update-alternatives --set hbase-conf /etc/hbase/conf.{{ site }}

@@ -1,0 +1,92 @@
+---
+
+- include: "hadoop-hdfs-namenode/main.yml"
+  when: ansible_fqdn in groups['hdfs-namenode']
+
+- include: "hadoop-hdfs-secondarynamenode/main.yml"
+  when: ansible_fqdn in groups['hdfs-secondarynamenode']
+
+# NN Standby
+- include: "hadoop-hdfs-namenode/main.yml"
+  when: ansible_fqdn in groups['hdfs-namenode-standby'] and hdfs_ha_enabled == true
+    
+- include: "hadoop-hdfs-datanode/main.yml"
+  when: ansible_fqdn in groups['hdfs-datanode']
+
+- include: "hadoop-hdfs-zkfc/main.yml"
+  when: ansible_fqdn in groups['hdfs-zkfc'] and hdfs_ha_enabled == true
+  
+- include: "hadoop-hdfs-journalnode/main.yml"
+  when: ansible_fqdn in groups['hdfs-journalnode'] and hdfs_ha_enabled == true
+
+- include: "hadoop-yarn-resourcemanager/main.yml"
+  when: ansible_fqdn in groups['yarn-resourcemanager'][0]
+
+# RM Standby  
+- include: "hadoop-yarn-resourcemanager/main.yml"
+  when: ansible_fqdn in groups['yarn-resourcemanager-standby'] and yarn_rm_ha_enabled == true
+  
+- include: "hadoop-yarn-nodemanager/main.yml"
+  when: ansible_fqdn in groups['yarn-nodemanager']
+  
+- include: "hadoop-mapreduce-historyserver/main.yml"
+  when: ansible_fqdn in groups['mapreduce-historyserver']
+
+# Hadoop confs      
+- name: Create a directory for Hadoop conf
+  file: dest=/etc/hadoop/conf.{{ site }} state=directory
+    
+- name: Copy confs templates
+  template: src=conf/{{ item }} dest=/etc/hadoop/conf.{{ site }}/
+  with_items:
+    - capacity-scheduler.xml
+    - configuration.xsl
+    - container-executor.cfg
+    - core-site.xml
+    - hadoop-env.sh
+    - hadoop-metrics.properties
+    - hadoop-metrics2.properties
+    - hadoop-policy.xml
+    - hdfs-site.xml
+    - log4j.properties
+    - mapred-env.sh
+    - mapred-site.xml
+    - yarn-env.sh
+    - yarn-site.xml
+    - yarn.exclude
+    - hdfs.exclude
+    
+- name: alternatives, install Hadoop configuration
+  command: update-alternatives --install /etc/hadoop/conf hadoop-conf /etc/hadoop/conf.{{ site }} 50
+
+- name: alternatives, set Hadoop configuration
+  command: update-alternatives --set hadoop-conf /etc/hadoop/conf.{{ site }}
+  
+# Hadoop Init
+- name: Format HDFS
+  shell: /etc/init.d/hadoop-hdfs-namenode init
+  when: ansible_fqdn in groups['hdfs-namenode'][0]
+
+- name: Start HDFS - NameNode
+  service: name=hadoop-hdfs-namenode state=started
+  when: ansible_fqdn in groups['hdfs-namenode'][0]
+
+- name: Start HDFS - DataNode
+  service: name=hadoop-hdfs-datanode state=started
+  when: ansible_fqdn in groups['hdfs-datanode']
+
+- name: Init HDFS
+  shell: /usr/lib/hadoop/libexec/init-hdfs.sh
+  when: ansible_fqdn in groups['hdfs-namenode'][0]
+
+- name: Start YARN - ResourceManager
+  service: name=hadoop-yarn-resourcemanager state=started
+  when: ansible_fqdn in groups['yarn-resourcemanager']
+
+- name: Start YARN - NodeManager
+  service: name=hadoop-yarn-nodemanager state=started
+  when: ansible_fqdn in groups['yarn-nodemanager']
+    
+
+
+

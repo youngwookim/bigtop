@@ -1,0 +1,4 @@
+---
+
+- name: Install Sqoop
+  yum: pkg=sqoop state=present

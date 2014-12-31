@@ -1,0 +1,6 @@
+---
+
+# Spark
+- hosts: spark
+  roles:
+    - { role: spark }

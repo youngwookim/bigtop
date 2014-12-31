@@ -1,0 +1,6 @@
+---
+
+- name: Install hadoop-hdfs-zkfc
+  yum: pkg={{ item }} state=latest
+  with_items:
+    - hadoop-hdfs-zkfc 

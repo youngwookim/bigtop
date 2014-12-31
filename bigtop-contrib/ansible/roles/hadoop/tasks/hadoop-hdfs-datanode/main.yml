@@ -1,0 +1,10 @@
+---
+- name: Install hadoop-hdfs-datanode
+  yum: pkg={{ item }} state=latest
+  with_items:
+    - hadoop-hdfs-datanode
+
+- name: Create directories for Datanode
+  file: dest={{ item }} state=directory owner=hdfs group=hdfs mode=0755
+  with_items: dfs_datanode_data_dir
+  

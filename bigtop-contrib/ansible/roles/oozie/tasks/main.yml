@@ -1,0 +1,10 @@
+---
+
+- name: Install Oozie
+  yum: pkg={{ item }} state=latest
+  with_items:
+    - oozie
+    - oozie-client
+
+- name: Repacking Oozie war
+  shell: /usr/lib/oozie/bin/oozie-setup.sh prepare-war

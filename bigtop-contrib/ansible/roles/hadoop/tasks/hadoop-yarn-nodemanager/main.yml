@@ -1,0 +1,11 @@
+---
+
+- name: Install Hadoop YARN NodeManager
+  yum: pkg={{ item }} state=latest
+  with_items:
+    - hadoop-yarn-nodemanager
+    - hadoop-mapreduce
+
+- name: Create YARN local directories for NodeManager
+  file: dest={{ item }} state=directory owner=yarn group=yarn mode=0755
+  with_items: yarn_nodemanager_local_dirs

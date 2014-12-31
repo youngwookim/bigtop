@@ -1,0 +1,27 @@
+---
+
+# Bootstrap
+- include: common.yml
+
+# Zookeeper
+- include: zookeeper.yml
+
+# Hadoop
+- include: hadoop.yml
+
+# Hive (hive metastore and server2)
+- include: hive.yml
+
+# Spark
+- include: spark.yml
+
+# HBase
+- include: hbase.yml
+
+# Phoenix
+- include: phoenix.yml
+
+
+    
+
+

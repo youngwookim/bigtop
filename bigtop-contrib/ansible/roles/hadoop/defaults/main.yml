@@ -1,0 +1,27 @@
+---
+# Role default variables allow you to set default variables for included or dependent roles (see below). 
+# These variables will have the lowest priority of any variables available, and can be easily overridden by any other variable, including inventory variables.
+
+site: mysite
+
+hdfs_ha_enabled: false
+yarn_rm_ha_enabled: false
+
+# core-site.xml
+dfs_nameservice: "mycluster"
+
+fs_defaultfs: "hdfs://localhost:8020"
+
+# hdfs-site.xml
+dfs_replication: 3
+
+dfs_datanode_data_dir: "file://${hadoop.tmp.dir}/dfs/data"
+
+# yarn-ste.xml
+# http://hadoop.apache.org/docs/r2.4.1/hadoop-yarn/hadoop-yarn-common/yarn-default.xml
+yarn_nodemanager_local_dirs:
+  - "${hadoop.tmp.dir}/nm-local-dir"
+yarn_log_server_url: "localhost:19888/jobhistory/logs"
+
+# mapred-site.xml
+mapreduce_framework_name: "yarn"

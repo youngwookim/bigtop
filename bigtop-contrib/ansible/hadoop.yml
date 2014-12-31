@@ -1,0 +1,9 @@
+---
+# Hadoop HDFS
+- hosts: hadoop
+  roles:
+    - { role: hadoop }
+
+  post_tasks:
+    - shell: echo 'Done.'
+

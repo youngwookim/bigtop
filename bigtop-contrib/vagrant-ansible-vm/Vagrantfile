@@ -1,0 +1,95 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+enable_local_yum = false
+box = "chef/centos-6.6"
+
+# VMs
+# Single node, # of boxes = 1
+boxes = [
+  { :name => :bigtop1, :ip => '10.10.10.11', :ssh_port => 2221, :cpus => 1, :mem => 4000 }
+  ]
+  
+# Cluster, # of boxes >= 3
+#boxes = [
+#  { :name => :bigtop1, :ip => '10.10.10.11', :ssh_port => 12201, :cpus => 1, :mem => 1000 },
+#  { :name => :bigtop2, :ip => '10.10.10.12', :ssh_port => 12202, :cpus => 1, :mem => 1000 },
+#  { :name => :bigtop3, :ip => '10.10.10.13', :ssh_port => 12203, :cpus => 1, :mem => 1000 },
+#  ]
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  config.ssh.insert_key = false
+  
+  config.hostmanager.enabled = true
+  if Vagrant.has_plugin?("vagrant-cachier")
+    config.cache.scope = :box
+  end
+
+  boxes.each_with_index do |opts, index|
+    config.vm.define opts[:name] do |config|
+      config.vm.box = box
+      config.vm.network  "private_network", ip: opts[:ip]
+      config.vm.network  "forwarded_port", guest: 22, host: opts[:ssh_port]
+      config.vm.hostname = "%s.example.com" % opts[:name].to_s
+       
+      config.vm.synced_folder "../../", "/bigtop-home"
+       
+      config.vm.provider "virtualbox" do |vb|
+        vb.gui = false
+        vb.customize ["modifyvm", :id, "--cpus", opts[:cpus] ] if opts[:cpus]
+        vb.customize ["modifyvm", :id, "--memory", opts[:mem] ] if opts[:mem]
+      end
+       
+      if enable_local_yum then
+        config.vm.provision "shell", inline: "sudo echo \"gpgcheck=0\" >> /etc/yum.conf"
+        config.vm.provision "shell", inline: "sudo yum-config-manager --add-repo file:///bigtop-home/output ; true"
+      end
+       
+      # Dependency for Ansible
+      config.vm.provision "shell", inline: "sudo yum -y install libselinux-python"
+      
+      # for parallel provisioning
+      if index == boxes.size - 1 
+        config.vm.provision :ansible do |ansible|
+          ansible.sudo_user = "root" 
+          ansible.sudo = true
+          ansible.playbook = "../ansible/site.yml"
+        
+          if boxes.size == 1
+            ansible.inventory_path = "../ansible/inventory.single.example"
+          elsif boxes.size > 1
+            ansible.inventory_path = "../ansible/inventory.cluster.example"
+          end
+        
+          # Debug level: v, vv, vvv, vvvv
+          ansible.verbose = "vvv"
+
+          # Disable default limit (required with Vagrant 1.5+)
+          ansible.limit = 'all'
+
+          ansible.extra_vars = { 
+
+          }
+        end
+      end
+    end
+  end
+end

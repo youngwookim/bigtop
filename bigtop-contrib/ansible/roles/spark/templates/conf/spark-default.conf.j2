@@ -1,0 +1,3 @@
+spark.master                     spark://{{ groups["spark-master"][0]  }}:7077
+spark.eventLog.enabled           true
+spark.eventLog.dir               {{ fs_defaultfs }}/var/log/spark/apps/

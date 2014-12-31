@@ -1,0 +1,10 @@
+---
+
+- hosts: all
+  roles:
+    - { role: common }
+
+# PostgreSQL
+- hosts: hive
+  roles:
+    - { role: postgresql }

@@ -1,0 +1,93 @@
+bigtop1.example.com ansible_ssh_host=10.10.10.11
+
+[zookeeper]
+bigtop1.example.com myid=1
+
+# FQDN of HDFS NameNode
+[hdfs-namenode]
+bigtop1.example.com
+
+[hdfs-datanode]
+bigtop1.example.com
+
+[hdfs-secondarynamenode]
+bigtop1.example.com
+
+# For HDFS HA
+[hdfs-namenode-standby]
+
+[hdfs-zkfc]
+
+[hdfs-journalnode]
+
+# Hadoop: YARN
+[yarn-resourcemanager]
+bigtop1.example.com
+
+# For YARN RM HA
+[yarn-resourcemanager-standby]
+
+[yarn-nodemanager]
+bigtop1.example.com
+
+[mapreduce-historyserver]
+bigtop1.example.com
+
+# HBase
+[hbase-master]
+bigtop1.example.com
+
+[hbase-regionserver]
+bigtop1.example.com
+
+# FQDN for hiveserver2
+[hive]
+bigtop1.example.com
+
+[oozie]
+bigtop1.example.com
+
+[flume]
+bigtop1.example.com
+
+[pig]
+bigtop1.example.com
+
+[mahout]
+bigtop1.example.com
+
+[spark-master]
+bigtop1.example.com
+
+[spark-worker]
+bigtop1.example.com
+
+[tachyon-master]
+bigtop1.example.com
+
+[tachyon-worker]
+bigtop1.example.com
+
+[hue]
+bigtop1.example.com
+
+[hadoop:children]
+hdfs-namenode
+hdfs-namenode-standby
+hdfs-secondarynamenode
+hdfs-datanode
+hdfs-journalnode
+yarn-resourcemanager
+yarn-nodemanager
+
+[hbase:children]
+hbase-master
+hbase-regionserver
+
+[spark:children]
+spark-master
+spark-worker
+
+[tachyon:children]
+tachyon-master
+tachyon-worker

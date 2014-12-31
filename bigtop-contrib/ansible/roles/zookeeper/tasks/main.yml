@@ -1,0 +1,15 @@
+---
+
+- name: Install Zookeeper
+  yum: pkg={{ item }} state=latest
+  with_items:
+    - zookeeper
+    - zookeeper-server
+    
+- name: zookeeper configuration
+  template: src={{ item }}.j2 dest=/etc/zookeeper/conf/{{ item }}
+  with_items:
+    - zoo.cfg
+    
+- name: Start zookeeper
+  service: name=zookeeper-server state=started

@@ -1,0 +1,6 @@
+---
+- name: Install HBase RegionServer
+  yum: pkg={{ item }} state=latest
+  with_items:
+    - hbase
+    - hbase-regionserver

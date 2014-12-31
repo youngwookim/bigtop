@@ -1,0 +1,29 @@
+---
+
+- name: Install Spark master
+  yum: pkg={{ item }} state=present
+  with_items:
+    - spark-master
+    - spark-python
+  when: ansible_fqdn in groups['spark-master']
+
+- name: Install Spark worker
+  yum: pkg={{ item }} state=present
+  with_items:
+    - spark-worker
+    - spark-python
+  when: ansible_fqdn in groups['spark-worker']
+  
+- name: Install Spark history server
+  yum: pkg={{ item }} state=present
+  with_items:
+    - spark-history-server
+    - spark-python
+  when: groups['spark-history-server'] is defined and ansible_fqdn in groups['spark-history-server']
+
+- name: Spark confs
+  template: src=conf/{{ item }}.j2 dest=/etc/spark/conf/{{ item }}
+  with_items:
+    - spark-default.conf
+    - spark-env.sh
+

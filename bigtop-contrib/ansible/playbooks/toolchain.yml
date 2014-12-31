@@ -1,0 +1,111 @@
+---
+# A playbook for Bigtop toolchain
+#
+# sudo yum install ansible
+# cd <path-to-bigtop>/bigtop-contrib/ansible/playboooks
+# sudo ansible-playbook toolchain.yml --connection=local
+
+- hosts: 127.0.0.1
+  #connection: local
+  vars:
+  tasks:
+
+  - name: yum repo for protobuf
+    get_url: url=http://download.opensuse.org/repositories/home:/mrdocs:/protobuf-rpm/CentOS_CentOS-6/home:mrdocs:protobuf-rpm.repo dest=/etc/yum.repos.d/protobuf.repo
+    when: ansible_pkg_mgr == 'yum'
+
+  # RHEL/CentOS
+  - name: Install packages (RHEL/CentOS)
+    yum: pkg={{ item }} state=present
+    when: ansible_pkg_mgr == 'yum'
+    with_items:
+      - java-1.7.0-openjdk-devel
+      - snappy-devel
+      - snappy
+      - unzip
+      - curl
+      - wget
+      - git
+      - make
+      - cmake
+      - autoconf
+      - automake
+      - libtool
+      - gcc
+      - gcc-c++
+      - fuse
+      - createrepo
+      - lzo-devel
+      - fuse-devel
+      - cppunit-devel
+      - openssl-devel
+      - rpm-build
+      - redhat-rpm-config
+      - fuse-libs
+      - http://www.scala-lang.org/files/archive/scala-2.10.3.rpm
+      - asciidoc
+      - xmlto
+
+  # Debian/Ubuntu
+  - name: Install packages (Debian/Ubuntu)
+    apt: pkg={{ item }} state=present
+    when: ansible_pkg_mgr == 'apt'
+    with_items:
+      - java-1.7.0-openjdk-devel
+      - unzip
+      - curl
+      - wget
+      - git-core
+      - make
+      - cmake
+      - autoconf
+      - automake
+      - libtool
+      - gcc
+      - g++
+      - fuse
+      - reprepro
+      - liblzo2-dev
+      - libfuse-dev
+      - libcppunit-dev
+      - libssl-dev
+      - libzip-dev
+      - sharutils
+      - pkg-config
+      - debhelper
+      - devscripts
+      - build-essential
+      - dh-make
+      - libfuse2
+      - libssh-dev
+      - libjansi-java
+
+  # curl --stderr /dev/null https://www.apache.org/dyn/closer.cgi?as_json=1 | grep preferred |cut -d '"' -f 4 | tr -d '\r'
+  - name: download bins
+    get_url: url={{ item }} dest=/tmp/
+    with_items:
+      - http://www.us.apache.org/dist/ant/binaries/apache-ant-1.9.4-bin.tar.gz
+      - http://www.us.apache.org/dist/maven/maven-3/3.0.5/binaries/apache-maven-3.0.5-bin.tar.gz
+      - http://archive.apache.org/dist/forrest/0.9/apache-forrest-0.9.tar.gz
+
+  # Unarchive
+  - name: Unarchive
+    unarchive: src=/tmp/{{ item }} dest=/usr/local/
+    with_items:
+      - apache-ant-1.9.4-bin.tar.gz
+      - apache-maven-3.0.5-bin.tar.gz
+      - apache-forrest-0.9.tar.gz
+
+  - name: JAVA_HOME
+    lineinfile: dest=/etc/profile.d/bigtop.sh line="export JAVA_HOME=/usr/lib/jvm/java-1.7.0-openjdk.x86_64" state=present create=yes insertafter=EOF
+  - name: ANT_HOME
+    lineinfile: dest=/etc/profile.d/bigtop.sh line="export ANT_HOME=/usr/local/apache-ant-1.9.4" state=present insertafter=EOF
+  - name: MAVEN_HOME
+    lineinfile: dest=/etc/profile.d/bigtop.sh line="export MAVEN_HOME=/usr/local/apache-maven-3.0.5" state=present insertafter=EOF
+  - name: FORRET_HOME
+    lineinfile: dest=/etc/profile.d/bigtop.sh line="export FORREST_HOME=/usr/local/apache-forrest-0.9" state=present insertafter=EOF
+  - name: SCALA_HOME
+    lineinfile: dest=/etc/profile.d/bigtop.sh line="export SCALA_HOME=/usr/share/java" state=present insertafter=EOF
+  - name: PATH
+    lineinfile: dest=/etc/profile.d/bigtop.sh line="export PATH=$JAVA_HOME/bin:$ANT_HOME/bin:$MAVEN_HOME/bin:$FORREST_HOME/bin:$PATH" state=present insertafter=EOF
+

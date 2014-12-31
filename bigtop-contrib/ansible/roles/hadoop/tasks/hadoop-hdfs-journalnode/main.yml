@@ -1,0 +1,6 @@
+---
+
+- name: Install Hadoop HDFS JournalNode
+  yum: pkg={{ item }} state=latest
+  with_items:
+    - hadoop-hdfs-journalnode

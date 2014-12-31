@@ -1,0 +1,6 @@
+---
+
+- name: Install hadoop-yarn-resourcemanager
+  yum: pkg={{ item }} state=latest
+  with_items:
+    - hadoop-yarn-resourcemanager
