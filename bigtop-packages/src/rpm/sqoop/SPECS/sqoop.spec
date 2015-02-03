@@ -68,6 +68,7 @@ Source8: init.d.tmpl
 Source9: sqoop-server.svc
 Source10: sqoop-server.sh
 Source11: tomcat-deployment.sh
+Source12: sqoop-tool.sh
 Buildarch: noarch
 Requires: hadoop-client, bigtop-utils >= 0.7, bigtop-tomcat, %{name}-client = %{version}-%{release}
 
@@ -177,15 +178,20 @@ fi
 %config(noreplace) /etc/default/sqoop-server
 %{lib_sqoop}/webapps
 %{lib_sqoop}/bin/setenv.sh
+%{lib_sqoop}/bin/sqoop-sys.sh
 %{lib_sqoop}/tomcat-deployment.sh
+/usr/lib/bigtop-tomcat/lib/sqoop-tomcat-*.jar
 %defattr(0755,sqoop,sqoop)
 /var/lib/sqoop
 
 %files client
 %attr(0755,root,root)
 /usr/bin/sqoop
+/usr/bin/sqoop-tool
 %{lib_sqoop}/bin/sqoop.sh
 %{lib_sqoop}/client-lib
+%{lib_sqoop}/LICENSE.txt
+%{lib_sqoop}/NOTICE.txt
 
 %files server
 %attr(0755,root,root) %{initd_dir}/sqoop-server
