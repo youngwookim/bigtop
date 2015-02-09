@@ -20,7 +20,7 @@ usage() {
   echo "
 usage: $0 <options>
   Required not-so-options:
-     --build-dir=DIR             path to hive/build/dist
+     --build-dir=DIR             path to build
      --prefix=PREFIX             path to install into
   "
   exit 1
@@ -76,14 +76,20 @@ for var in PREFIX BUILD_DIR; do
   fi
 done
 
-BIN_DIR=${BIN_DIR:-/usr/lib/bigtop-utils}
-DOC_DIR=${DOC_DIR:-/usr/share/doc/bigtop-jsvc}
+LIB_DIR=/var/lib/bigtop-db
+LOG_DIR=/var/log/bigtop-db
+DOC_DIR=${DOC_DIR:-${PREFIX}/usr/share/doc/bigtop-db}
 
-#libexec
-install -d -m 0755 ${PREFIX}/${BIN_DIR}
-cp ${BUILD_DIR}/jsvc ${PREFIX}/${BIN_DIR}
 
-# docs
-install -d -m 0755 ${PREFIX}/${DOC_DIR}
-cp ${BUILD_DIR}/*.txt  ${PREFIX}/${DOC_DIR}/
-cp ${BUILD_DIR}/README  ${PREFIX}/${DOC_DIR}/
+install -d -m 0755 ${PREFIX}/${LIB_DIR}
+install -d -m 0755 ${PREFIX}/${LOG_DIR}
+install -d -m 0755 ${PREFIX}/etc/sysconfig
+
+cat >>${PREFIX}/etc/sysconfig/bigtop-db <<EOF
+PGDATA=\${LIB_DIR}/data
+PGPORT=5433
+PGLOG=\${LOG_DIR}/bigtop-db.log
+EOF
+
+install -d -m 0755 ${DOC_DIR}
+cp ${BUILD_DIR}/LICENSE ${DOC_DIR}

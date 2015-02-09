@@ -29,11 +29,9 @@ URL:        http://bigtop.apache.org/
 BuildRoot:  %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildArch:  noarch
 Source0:    LICENSE
-Source2:    install_bigtop_db.sh
-Source3:    install_bigtop_db.sh
-Source4:    init_bigtop_db_hive.sh
+Source1:    install_bigtop_db.sh
 
-Requires:   postgresql-server
+Requires:   postgresql-server, postgresql-jdbc
 
 %description
 Metastore databse for Bigtop components
@@ -44,8 +42,7 @@ Group: Development/Libraries
 Requires: bigtop-db = %{version}-%{release}
 
 %description -n hive
-Hive Metastore
-
+Bigtop DB - Hive
 
 %prep
 %setup -q -T -c
@@ -55,27 +52,27 @@ Hive Metastore
 %install
 %__rm -rf $RPM_BUILD_ROOT
 
-/bin/bash %{SOURCE2} \
+/bin/bash %{SOURCE1} \
+  --build-dir=$RPM_SOURCE_DIR \
   --prefix=$RPM_BUILD_ROOT \
   --doc-dir=$RPM_BUILD_ROOT/%{doc_dir}
+
+%__install -d -m 0755 $RPM_BUILD_ROOT/etc/init.d/
+%__ln_s /etc/init.d/postgresql $RPM_BUILD_ROOT/etc/init.d/bigtop-db
 
 %pre
 
 %post
-/bin/bash %{SOURCE3}
-
-export PGDATA=%{data_dir}
-su -l postgres -c "initdb --pgdata='$PGDATA' --auth='ident' -E UTF-8 >> "$PGLOG" 2>&1 < /dev/null
 
 %clean
-rm -rf $RPM_BUILD_ROOT
-
-%post hive
-HIVE_HOME=%{lib_hive} bash /bin/bash %{SOURCE4}
 
 %files
 %defattr(-,root,root,-)
-%doc %{doc_dir}/LICENSE
+/etc/sysconfig/bigtop-db
+/etc/init.d/bigtop-db
+%{doc_dir}
+/var/lib/bigtop-db
+/var/log/bigtop-db
 
 
 
