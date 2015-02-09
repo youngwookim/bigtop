@@ -83,8 +83,9 @@ DOC_DIR=${DOC_DIR:-${PREFIX}/usr/share/doc/bigtop-db}
 
 install -d -m 0755 ${PREFIX}/${LIB_DIR}
 install -d -m 0755 ${PREFIX}/${LOG_DIR}
-install -d -m 0755 ${PREFIX}/etc/sysconfig
 
+# Redhat
+install -d -m 0755 ${PREFIX}/etc/sysconfig
 cat >>${PREFIX}/etc/sysconfig/bigtop-db <<EOF
 PGDATA=\${LIB_DIR}/data
 PGPORT=5433
