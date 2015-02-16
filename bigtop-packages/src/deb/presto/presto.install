@@ -1,0 +1,10 @@
+/etc/default/presto
+/etc/presto
+/usr/lib/presto/README.txt
+/usr/lib/presto/NOTICE
+/usr/lib/presto/bin
+/usr/lib/presto/lib
+/usr/lib/presto/plugin
+/var/lib/presto
+/var/log/presto
+/var/run/presto

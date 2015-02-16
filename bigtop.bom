@@ -428,7 +428,15 @@ bigtop {
       version { base = '1.1.4'; pkg = base; release = 1 }
       tarball { destination = "$name-${version.base}.tar.gz"
                 source      = "${version.base}.tar.gz" }
-      url     { site = "https://github.com/quantcast/qfs/archive"
+      url     { site = "https://github.com/quantcast/qfs/archive" }
+    }
+    'presto' {
+      name    = 'presto'
+      relNotes = 'Presto is an open source distributed SQL query engine'
+      version { base = '0.145'; pkg = base; release = 1 }
+      tarball { destination = "$name-${version.base}-src.tar.gz"
+                source = "${version.base}-t.tar.gz" }
+      url     { site = "https://github.com/youngwookim/presto/archive"                
                 archive = site }
     }
   }
