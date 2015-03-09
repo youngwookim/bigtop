@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.bigtop.itest.sqoop
+package org.apache.bigtop.itest.sqoop2
 
 import org.apache.sqoop.client.SqoopClient
 import org.apache.sqoop.model.MPersistableEntity
@@ -77,7 +77,7 @@ class TestSqoopImport {
         sh.getRet() == 0);
     }
     // unpack resource
-    JarContent.unpackJarContainer(TestSqoopImport.class, '.', null)
+    JarContent.unpackJarContainer(TestSqoop2Import.class, '.', null)
 
     // create the database
     sh.exec("cat $DATA_DIR/mysql-create-db.sql | $MYSQL_COMMAND");
@@ -336,87 +336,6 @@ class TestSqoopImport {
     sh.exec("hadoop fs -cat $OUTPUT/$outputSubdir/part-* > split-by.out");
     assertEquals("sqoop import did not write expected data",
       0, sh.exec("diff -u $DATA_DIR/sqoop-testtable.out split-by.out").getRet());
-  }
-
-  //----------------------------------------@Ignore("Backward Compatibility")------------------------------------------//
-  // The functionality of the tests below is not currently supported by Sqoop 2.
-
-  //database name is hardcoded here
-  @Ignore("Backward Compatibility")
-  @Test
-  public void testImportAllTables() {
-    String SQOOP_CONNECTION_IMPORT_ALL =
-      "--connect jdbc:mysql://$MYSQL_HOST/mysqltestdb2 --username=$MYSQL_USER" +
-        (("".equals(MYSQL_PASSWORD)) ? "" : " --password=$MYSQL_PASSWORD");
-
-    sh.exec("sqoop import-all-tables $SQOOP_CONNECTION_IMPORT_ALL --warehouse-dir $OUTPUT/alltables");
-    assertTrue("Sqoop job failed!", sh.getRet() == 0);
-    sh.exec("hadoop fs -cat $OUTPUT/alltables/testtable*/part-* > all-tables.out");
-    assertEquals("sqoop import did not write expected data",
-      0, sh.exec("diff -u $DATA_DIR/sqoop-all-tables.out all-tables.out").getRet());
-  }
-
-  @Ignore("Backward Compatibility")
-  @Test
-  public void testAppendImport() {
-    sh.exec("sqoop import $SQOOP_CONNECTION --table testtable --target-dir $OUTPUT/append");
-    assertTrue("Sqoop job failed!", sh.getRet() == 0);
-    //import again with append
-    sh.exec("sqoop import $SQOOP_CONNECTION --table testtable --append --target-dir $OUTPUT/append");
-    assertTrue("Sqoop job failed!", sh.getRet() == 0);
-    sh.exec("hadoop fs -cat $OUTPUT/append/part-* > append.out");
-    assertEquals("sqoop import did not write expected data",
-      0, sh.exec("diff -u $DATA_DIR/sqoop-append.out append.out").getRet());
-  }
-
-  @Ignore("Backward Compatibility")
-  @Test
-  public void testDirectImport() {
-    sh.exec("sqoop import $SQOOP_CONNECTION --table testtable --direct --target-dir $OUTPUT/direct");
-    assertTrue("Sqoop job failed!", sh.getRet() == 0);
-    sh.exec("hadoop fs -cat $OUTPUT/direct/part-* > direct.out");
-    assertEquals("sqoop import did not write expected data",
-      0, sh.exec("diff -u $DATA_DIR/sqoop-testtable.out direct.out").getRet());
-  }
-
-  @Ignore("Backward Compatibility")
-  @Test
-  public void testWarehouseDirImport() {
-    sh.exec("sqoop import $SQOOP_CONNECTION --table testtable --warehouse-dir $OUTPUT/warehouse-dir");
-    assertTrue("Sqoop job failed!", sh.getRet() == 0);
-    sh.exec("hadoop fs -cat $OUTPUT/warehouse-dir/testtable/part-* > warehouse-dir.out");
-    assertEquals("sqoop import did not write expected data",
-      0, sh.exec("diff -u $DATA_DIR/sqoop-testtable.out warehouse-dir.out").getRet());
-  }
-
-  @Ignore("Backward Compatibility")
-  @Test
-  public void testWhereClauseImport() {
-    sh.exec("sqoop import $SQOOP_CONNECTION --table testtable --where \"id < 5\" --target-dir $OUTPUT/where-clause");
-    assertTrue("Sqoop job failed!", sh.getRet() == 0);
-    sh.exec("hadoop fs -cat $OUTPUT/where-clause/part-* > where-clause.out");
-    assertEquals("sqoop import did not write expected data",
-      0, sh.exec("diff -u $DATA_DIR/sqoop-where-clause.out where-clause.out").getRet());
-  }
-
-  @Ignore("Backward Compatibility")
-  @Test
-  public void testNullStringImport() {
-    sh.exec("sqoop import $SQOOP_CONNECTION --table testnullvalues --null-string mynullstring --target-dir $OUTPUT/null-string");
-    assertTrue("Sqoop job failed!", sh.getRet() == 0);
-    sh.exec("hadoop fs -cat $OUTPUT/null-string/part-* > null-string.out");
-    assertEquals("sqoop import did not write expected data",
-      0, sh.exec("diff -u $DATA_DIR/sqoop-null-string.out null-string.out").getRet());
-  }
-
-  @Ignore("Backward Compatibility")
-  @Test
-  public void testNullNonStringImport() {
-    sh.exec("sqoop import $SQOOP_CONNECTION --table testnullvalues --null-non-string 10 --target-dir $OUTPUT/non-null-string");
-    assertTrue("Sqoop job failed!", sh.getRet() == 0);
-    sh.exec("hadoop fs -cat $OUTPUT/non-null-string/part-* > non-null-string.out");
-    assertEquals("sqoop import did not write expected data",
-      0, sh.exec("diff -u $DATA_DIR/sqoop-null-non-string.out non-null-string.out").getRet());
   }
 
 }

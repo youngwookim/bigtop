@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.bigtop.itest.sqoop
+package org.apache.bigtop.itest.sqoop2
 
 import org.apache.sqoop.client.SqoopClient
 import org.apache.sqoop.model.MConnection
@@ -90,7 +90,7 @@ class TestSqoopExport {
     assertTrue("Could not create $INPUT/t_int directory", sh.getRet() == 0);
 
     // unpack resource
-    JarContent.unpackJarContainer(TestSqoopExport.class, '.', null)
+    JarContent.unpackJarContainer(TestSqoop2Export.class, '.', null)
 
     // upload data to HDFS 
     sh.exec("hadoop fs -put $DATA_DIR/sqoop-testtable.out $INPUT/testtable/part-m-00000");
