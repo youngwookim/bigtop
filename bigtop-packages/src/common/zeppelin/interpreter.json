@@ -1,0 +1,81 @@
+{
+  "interpreterSettings": {
+    "2AGTN7293": {
+      "id": "2AGTN7293",
+      "name": "md",
+      "group": "md",
+      "properties": {},
+      "interpreterGroup": [
+        {
+          "class": "com.nflabs.zeppelin.markdown.Markdown",
+          "name": "md"
+        }
+      ],
+      "option": {
+        "remote": true
+      }
+    },
+    "2AJREDV94": {
+      "id": "2AJREDV94",
+      "name": "sh",
+      "group": "sh",
+      "properties": {},
+      "interpreterGroup": [
+        {
+          "class": "com.nflabs.zeppelin.shell.ShellInterpreter",
+          "name": "sh"
+        }
+      ],
+      "option": {
+        "remote": true
+      }
+    },
+    "2AGPZRZZ7": {
+      "id": "2AGPZRZZ7",
+      "name": "spark",
+      "group": "spark",
+      "properties": {
+        "spark.cores.max": "",
+        "spark.yarn.jar": "/usr/lib/spark/lib/spark-assembly.jar",
+        "master": "yarn-client",
+        "zeppelin.spark.maxResult": "10000",
+        "zeppelin.dep.localrepo": "local-repo",
+        "spark.app.name": "Zeppelin",
+        "spark.executor.memory": "512m",
+        "zeppelin.spark.useHiveContext": "true",
+        "args": "",
+        "spark.home": "/usr/lib/spark",
+        "zeppelin.spark.concurrentSQL": "false"
+      },
+      "interpreterGroup": [
+        {
+          "class": "com.nflabs.zeppelin.spark.SparkInterpreter",
+          "name": "spark"
+        },
+        {
+          "class": "com.nflabs.zeppelin.spark.PySparkInterpreter",
+          "name": "pyspark"
+        },
+        {
+          "class": "com.nflabs.zeppelin.spark.SparkSqlInterpreter",
+          "name": "sql"
+        },
+        {
+          "class": "com.nflabs.zeppelin.spark.DepInterpreter",
+          "name": "dep"
+        }
+      ],
+      "option": {
+        "remote": true
+      }
+    }
+  },
+  "interpreterBindings": {
+    "2A94M5J1Z": [
+      "2AGPZRZZ7",
+      "2AGTN7293",
+      "2AJREDV94"
+    ]
+  }
+}
+
