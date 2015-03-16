@@ -45,6 +45,7 @@
     <pig.version>0.12.1</pig.version>
     <pig-smoke.version>0.12.1</pig-smoke.version>
     <sqoop.version>1.4.5</sqoop.version>
+    <sqoop.classifier>hadoop200</sqoop.classifier>
     <sqoop2.version>1.99.4</sqoop2.version>
     <zookeeper.version>3.4.5</zookeeper.version>
     <giraph.version>1.0.0</giraph.version>
@@ -230,6 +231,7 @@
         <groupId>org.apache.sqoop</groupId>
         <artifactId>sqoop</artifactId>
         <version>${sqoop.version}</version>
+        <classifier>${sqoop.classifier}</classifier>
       </dependency>
       <dependency>
         <groupId>org.apache.sqoop</groupId>
