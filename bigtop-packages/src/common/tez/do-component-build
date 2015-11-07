@@ -33,11 +33,15 @@ fi
 
 sed -i '/--remove-unnecessary-resolutions=false/a\\t\t<argument>--allow-root</argument>' tez-ui/pom.xml
 
+# FIXME
+sed -i -e 's#<module>tez-ui</module>#<!--<module>tez-ui</module>-->#' pom.xml
+sed -i -e 's#<module>tez-ui2</module>#<!--<module>tez-ui2</module>-->#' pom.xml
+
 BUILD_TEZ_OPTS="clean package \
--Dtar -Dhadoop.version=${HADOOP_VERSION} \
--Phadoop26 \
+-Dtar \
+-Dhadoop.version=${HADOOP_VERSION} \
 -DskipTests"
 
-#mvn versions:set -DnewVersion=${TEZ_VERSION}
+mvn versions:set -DnewVersion=${TEZ_VERSION}
 
 mvn ${BUILD_TEZ_OPTS} "$@"
