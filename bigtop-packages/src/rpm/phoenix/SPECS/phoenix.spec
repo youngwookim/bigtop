@@ -88,7 +88,8 @@ Source4: bigtop.bom
 Source5: %{name}-queryserver.svc
 Source6: %{name}-queryserver.default
 Source7: %{name}-tephra.svc
-Source8: tephra-env.sh
+Source8: %{name}-tephra.default
+Source9: tephra-env.sh
 BuildArch: noarch
 Requires: hadoop, hadoop-mapreduce, hadoop-yarn, hbase, zookeeper
 
