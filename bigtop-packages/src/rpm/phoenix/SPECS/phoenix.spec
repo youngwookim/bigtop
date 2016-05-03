@@ -143,6 +143,7 @@ bash %{SOURCE2} \
 %__install -d -m 0755 $RPM_BUILD_ROOT/etc/default/
 %__install -m 0644 %{SOURCE3} $RPM_BUILD_ROOT/etc/default/%{name}
 %__install -m 0644 %{SOURCE6} $RPM_BUILD_ROOT/etc/default/%{name}-queryserver
+%__install -m 0644 %{SOURCE8} $RPM_BUILD_ROOT/etc/default/%{name}-tephra
 
 # Install init script
 init_file=$RPM_BUILD_ROOT/%{initd_dir}/%{name}-queryserver
