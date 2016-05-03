@@ -112,6 +112,7 @@ install -d -m 0755 $PREFIX/$ETC_DIR
 install -d -m 0755 $PREFIX/$CONF_DIR
 install -d -m 0755 $PREFIX/var/lib/phoenix
 install -d -m 0755 $PREFIX/var/log/phoenix
+install -d -m 0755 $PREFIX/var/run/phoenix
 
 cp $BUILD_DIR/*.jar $PREFIX/$LIB_DIR/
 cp -r $BUILD_DIR/bin $PREFIX/$LIB_DIR/
@@ -123,6 +124,10 @@ rm $PREFIX/$LIB_DIR/phoenix-*-sources.jar
 
 cp -a $BUILD_DIR/{LICENSE,NOTICE} $PREFIX/$DOC_DIR/
 cp -ra $BUILD_DIR/examples $PREFIX/$DOC_DIR
+
+# tephra-env.sh
+rm $PREFIX/$LIB_DIR/phoenix-*-sources.jar
+cp tephra-env.sh $PREFIX/$BIN_DIR/
 
 # Remove the executable bit from jars to avoid lintian warnings
 find $PREFIX/$LIB_DIR -name '*.jar' -exec chmod a-x {} \;

@@ -87,6 +87,8 @@ Source3: phoenix.default
 Source4: bigtop.bom
 Source5: %{name}-queryserver.svc
 Source6: %{name}-queryserver.default
+Source7: %{name}-tephra.svc
+Source8: tephra-env.sh
 BuildArch: noarch
 Requires: hadoop, hadoop-mapreduce, hadoop-yarn, hbase, zookeeper
 
@@ -115,6 +117,14 @@ The Phoenix Query Server provides an alternative means for interaction
 with Phoenix and HBase. Soon this will enable access from environments 
 other than the JVM.
 
+%package tephra
+Summary: Tephra provides globally-consistent transactions on top of Apache HBase
+Group: Development/Libraries
+Requires: phoenix = %{version}-%{release}
+
+%description tephra 
+Tephra provides snapshot isolation of concurrent transactions by implementing multi-versioned concurrency control.
+
 %prep
 %setup -n %{name}-%{phoenix_base_version}-src
 
@@ -135,6 +145,9 @@ bash %{SOURCE2} \
 # Install init script
 init_file=$RPM_BUILD_ROOT/%{initd_dir}/%{name}-queryserver
 bash $RPM_SOURCE_DIR/init.d.tmpl $RPM_SOURCE_DIR/%{name}-queryserver.svc rpm $init_file
+
+init_file=$RPM_BUILD_ROOT/%{initd_dir}/%{name}-tephra
+bash $RPM_SOURCE_DIR/init.d.tmpl $RPM_SOURCE_DIR/%{name}-tephra.svc rpm $init_file
 
 %pre
 getent group phoenix >/dev/null || groupadd -r phoenix
@@ -180,3 +193,5 @@ if [ $1 -ge 1 ]; then \
    service %{name}-%1 condrestart >/dev/null 2>&1 || : \
 fi
 %service_macro queryserver
+%service_macro tephra
+

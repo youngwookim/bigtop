@@ -40,7 +40,9 @@ override_dh_auto_build:
 	bash debian/do-component-build -Dmaven.repo.local=${HOME}/.m2/repository
 
 .PHONY: queryserver
-	bash debian/init.d.tmpl debian/${phoenix_pkg_name}-queryserver.svc deb debian/${phoenix_pkg_name}-queryserver.init
+.PHONY: tephra
+queryserver:
+        bash debian/init.d.tmpl debian/phoenix-$@.svc deb debian/${phoenix_pkg_name}-$@.init
 	
 override_dh_auto_install: queryserver
 	cp debian/phoenix.default debian/${phoenix_pkg_name}/etc/default/${phoenix_pkg_name}

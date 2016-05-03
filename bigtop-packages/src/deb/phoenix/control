@@ -40,3 +40,11 @@ Description: The Phoenix Query Server provides an alternative means for
  interaction with Phoenix and HBase. Soon this will enable access from 
  environments other than the JVM.
 
+Package: phoenix-tephra
+Architecture: all
+Depends: phoenix (= ${source:Version})
+Description: %package tephra
+Summary: Tephra provides globally-consistent transactions on top of Apache HBase
+ Tephra provides snapshot isolation of concurrent transactions by implementing 
+ multi-versioned concurrency control.
+
