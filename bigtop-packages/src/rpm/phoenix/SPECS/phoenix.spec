@@ -133,6 +133,7 @@ bash %{SOURCE1}
 
 %install
 %__rm -rf $RPM_BUILD_ROOT
+cp $RPM_SOURCE_DIR/tephra-env.sh .
 bash %{SOURCE2} \
 	--build-dir=build \
         --doc-dir=%{doc_phoenix} \
