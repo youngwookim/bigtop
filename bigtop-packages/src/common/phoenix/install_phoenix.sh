@@ -126,7 +126,7 @@ cp -a $BUILD_DIR/{LICENSE,NOTICE} $PREFIX/$DOC_DIR/
 cp -ra $BUILD_DIR/examples $PREFIX/$DOC_DIR
 
 # tephra-env.sh
-rm $PREFIX/$LIB_DIR/phoenix-*-sources.jar
+rm $PREFIX/$BIN_DIR/tephra-env.sh
 cp tephra-env.sh $PREFIX/$BIN_DIR/
 
 # Remove the executable bit from jars to avoid lintian warnings
