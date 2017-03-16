@@ -446,7 +446,7 @@ bigtop {
     'presto' {
       name    = 'presto'
       relNotes = 'Presto is an open source distributed SQL query engine'
-      version { base = '0.167'; pkg = base; release = 1 }
+      version { base = '0.168'; pkg = base; release = 1 }
       tarball { destination = "$name-${version.base}-src.tar.gz"
                 source = "${version.base}.tar.gz" }
       url     { site = "https://github.com/prestodb/presto/archive"                
