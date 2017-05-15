@@ -20,7 +20,7 @@ set -ex
 
 mvn clean install -DskipTests
 
-PRESTO_VERSION=$PRESTO_VERSION-t.1
+PRESTO_VERSION=$PRESTO_VERSION-t.0.4
 
 mkdir -p build/presto-${PRESTO_VERSION}
 mkdir -p build/presto-${PRESTO_VERSION}/docs

@@ -108,7 +108,7 @@ BuildArch: noarch
 Presto Documentation
 
 %prep
-%setup -n %{presto_name}-%{presto_base_version}-t.1
+%setup -n %{presto_name}-%{presto_base_version}-t.0.4
 
 %build
 bash $RPM_SOURCE_DIR/do-component-build
@@ -118,7 +118,7 @@ bash $RPM_SOURCE_DIR/do-component-build
 %__install -d -m 0755 $RPM_BUILD_ROOT/%{initd_dir}/
 
 bash $RPM_SOURCE_DIR/install_presto.sh \
-          --build-dir=build/%{presto_name}-%{presto_version}-t.1 \
+          --build-dir=build/%{presto_name}-%{presto_version}-t.0.4 \
           --source-dir=$RPM_SOURCE_DIR \
           --prefix=$RPM_BUILD_ROOT \
           --doc-dir=%{doc_presto}
