@@ -14,6 +14,9 @@
 # limitations under the License.
 
 class bigtop_toolchain::renv {
+
+  require bigtop_toolchain::packages
+
   case $operatingsystem{
     /(?i:(centos|fedora|Amazon))/: {
       $pkgs = [
@@ -22,7 +25,7 @@ class bigtop_toolchain::renv {
         "pandoc"
       ]
     }
-    /(?i:(SLES|opensuse))/: { 
+    /(?i:(SLES|opensuse))/: {
       $pkgs = [
         "R-base",
         "R-base-devel",
@@ -37,14 +40,11 @@ class bigtop_toolchain::renv {
       ]
     }
   }
-  package { $pkgs:
-    ensure => installed,
-    before => [Exec['install_r_packages']] 
-  }
 
   # Install required R packages
   exec { 'install_r_packages':
     cwd     => "/usr/bin",
     command => "/usr/bin/R -e \"install.packages(c('devtools', 'evaluate', 'rmarkdown', 'knitr', 'roxygen2', 'testthat', 'e1071'), repos = 'http://cran.us.r-project.org')\"",
+    require => Package[$pkgs]
   }
 }

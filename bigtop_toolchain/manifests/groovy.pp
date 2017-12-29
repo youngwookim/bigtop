@@ -18,11 +18,10 @@ class bigtop_toolchain::groovy {
   $groovy_version = '2.4.10'
   $groovy = "apache-groovy-binary-${groovy_version}"
 
-  include bigtop_toolchain::packages
+  require bigtop_toolchain::packages
 
   exec {"/usr/bin/wget http://dl.bintray.com/groovy/maven/${groovy}.zip":
     cwd     => "/usr/src",
-    require => Package[$packages::pkgs],
     unless  => "/usr/bin/test -f /usr/src/${groovy}.zip",
   }
 
